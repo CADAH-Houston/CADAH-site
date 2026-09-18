@@ -30,19 +30,25 @@ failure.
    other board member as an **Owner** — this is the step that actually
    solves the succession problem, so it's worth doing now rather than
    later.
-3. Go to **Settings > Developer settings > Personal access tokens > Fine-
+3. In the org, click **"New repository,"** name it `cadah-site`, pick
+   Public or Private (either is fine — no real secrets ever live in the
+   code itself, those all stay in Vercel's environment variables), and
+   leave "Initialize this repository with a README" **unchecked**. Claude
+   can't create this repo for you via GitHub's API (a platform restriction
+   on this sandbox, unrelated to your token's permissions) — this one click
+   has to happen on your end.
+4. Go to **Settings > Developer settings > Personal access tokens > Fine-
    grained tokens** (under your personal account, since org-owned tokens
    aren't a thing) and generate a new token:
    - Resource owner: select the **cadah-houston** organization (not
      yourself)
-   - Repository access: "All repositories" in that org (or create an empty
-     repo named `cadah-site` in the org first and scope the token to it)
+   - Repository access: "Only select repositories" > `cadah-site`
    - Permissions: **Contents: Read and write** (that's the only permission
      needed)
    - Set an expiration — 7 days is plenty, since I only need it once to
-     create the repo and push the code.
-4. Send me the token. I'll create the repo under the organization and push
-   everything, then let you know you can revoke the token afterward.
+     push the code.
+5. Send me the token. I'll push everything to the repo you created, then
+   let you know you can revoke the token afterward.
 
 Once that's done, CADAH's codebase lives at a permanent, org-owned GitHub
 URL, with full version history of every change going forward — not tied to
