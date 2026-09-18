@@ -77,11 +77,17 @@ Same personal-login-then-org pattern as GitHub, and it's free here too.
    `supabase/migrations/0001_init.sql` from this project, and run it. That
    creates all the tables, security rules, and the photo storage bucket in
    one go.
-5. Go to **Project Settings > API**. You'll need three values from this
-   page — send them to me (or set them yourself, see step 4 below):
+5. Go to **Project Settings > API Keys** (not the "Connect" button's
+   quick popover, which only shows one of these) — you'll need three
+   values from this page, send them to me (or set them yourself, see step
+   4 below):
    - **Project URL**
-   - **anon / public key**
-   - **service_role key** (click "reveal" — keep this one private, don't
+   - **Publishable key** (`sb_publishable_...` — Supabase's newer name for
+     what used to be called the "anon key"; if your project instead shows
+     an older `eyJ...`-style "anon key" with no "Publishable key" option,
+     that works exactly the same way)
+   - **Secret key** (`sb_secret_...` — the newer name for the
+     "service_role key." Click "reveal" — keep this one private, don't
      post it anywhere public)
 
 ## 3. Create a Vercel account and connect it to the GitHub repo
