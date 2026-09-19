@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { site } from "@/lib/config";
 
 export function SiteFooter() {
@@ -10,7 +11,14 @@ export function SiteFooter() {
             {site.boardEmail}
           </a>
         </p>
-        <p className="mt-1">&copy; {new Date().getFullYear()} {site.shortName}. All rights reserved.</p>
+        <p className="mt-1 flex flex-wrap items-center gap-x-2">
+          <span>
+            &copy; {new Date().getFullYear()} {site.shortName}. All rights reserved.
+          </span>
+          <Link href="/admin/login" className="text-neutral-400 hover:text-neutral-600">
+            Board
+          </Link>
+        </p>
       </div>
     </footer>
   );
