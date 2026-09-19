@@ -90,9 +90,14 @@ export default async function AdminMembersPage() {
       </div>
 
       <div className="mt-8 flex items-center justify-between text-xs text-neutral-400">
-        <Link href="/admin/upload" className="hover:text-neutral-600">
-          Upload event photos →
-        </Link>
+        <div className="flex gap-4">
+          <Link href="/admin/events" className="hover:text-neutral-600">
+            Events →
+          </Link>
+          <Link href="/admin/upload" className="hover:text-neutral-600">
+            Upload event photos →
+          </Link>
+        </div>
         <form action={logoutAdmin}>
           <button type="submit" className="hover:text-neutral-600">
             Log out
