@@ -2,6 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { site } from "@/lib/config";
+import { effectiveTier } from "@/lib/members";
 import type { Member } from "@/lib/supabase/types";
 import { createMember, updateMember } from "./actions";
 
@@ -44,17 +46,20 @@ export function MemberForm({ member }: { member?: Member }) {
           placeholder="City / clinic name"
         />
         <div>
-          <label className="block text-sm font-medium text-neutral-700" htmlFor="membership_type">
+          <label className="block text-sm font-medium text-neutral-700" htmlFor="membership_tier">
             Membership type
           </label>
           <select
-            id="membership_type"
-            name="membership_type"
-            defaultValue={member?.membership_type ?? "annual"}
+            id="membership_tier"
+            name="membership_tier"
+            defaultValue={member ? effectiveTier(member) : "regular"}
             className="mt-1 w-full rounded-md border border-neutral-300 px-3 py-2 text-sm focus:border-brand focus:outline-none"
           >
-            <option value="annual">Annual</option>
-            <option value="lifetime">Lifetime</option>
+            {site.membershipTiers.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.label}
+              </option>
+            ))}
           </select>
         </div>
         <div>

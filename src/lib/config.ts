@@ -3,8 +3,10 @@
 // src/app/ for longer copy) — nothing is hardcoded beyond editing text.
 // Update the copy below with CADAH's real details before launch.
 
+import type { MembershipTierId } from "@/lib/supabase/types";
+
 export type MembershipTier = {
-  id: "lifetime" | "regular" | "resident" | "student" | "associate";
+  id: MembershipTierId;
   label: string;
   price: string;
   blurb: string;

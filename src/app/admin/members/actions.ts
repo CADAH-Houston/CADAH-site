@@ -4,11 +4,14 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { clearAdminSession, isAdminAuthed } from "@/lib/admin-session";
 import { isSupabaseAdminConfigured } from "@/lib/config";
-import type { MemberStatus, MembershipType } from "@/lib/supabase/types";
+import { site } from "@/lib/config";
+import type { MemberStatus, MembershipTierId } from "@/lib/supabase/types";
 
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
 function parseMemberForm(formData: FormData) {
+  const tierId = String(formData.get("membership_tier") ?? "regular");
+  const tier = site.membershipTiers.find((t) => t.id === tierId) ?? site.membershipTiers[1];
   return {
     name: String(formData.get("name") ?? "").trim(),
     specialty: String(formData.get("specialty") ?? "").trim() || null,
@@ -21,7 +24,9 @@ function parseMemberForm(formData: FormData) {
     home_address_visible: formData.get("home_address_visible") === "on",
     practice_address: String(formData.get("practice_address") ?? "").trim() || null,
     practice_address_visible: formData.get("practice_address_visible") === "on",
-    membership_type: String(formData.get("membership_type") ?? "annual") as MembershipType,
+    membership_tier: tier.id as MembershipTierId,
+    // Keep the annual/lifetime column in sync with the tier.
+    membership_type: tier.id === "lifetime" ? ("lifetime" as const) : ("annual" as const),
     status: String(formData.get("status") ?? "active") as MemberStatus,
   };
 }

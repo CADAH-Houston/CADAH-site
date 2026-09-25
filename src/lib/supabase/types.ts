@@ -8,6 +8,7 @@
 // which silently collapses every query's inferred type to `never`.
 
 export type MembershipType = "annual" | "lifetime";
+export type MembershipTierId = "lifetime" | "regular" | "resident" | "student" | "associate";
 export type MemberStatus = "active" | "retired" | "moved" | "inactive";
 export type PaymentMethod = "stripe" | "zelle" | "cash" | "check";
 export type UserRole = "admin" | "member";
@@ -28,6 +29,8 @@ export type Member = {
   practice_address: string | null;
   practice_address_visible: boolean;
   membership_type: MembershipType;
+  // Added by migration 0002; may be missing until that has been run.
+  membership_tier?: MembershipTierId;
   status: MemberStatus;
   extra_info: Record<string, unknown>;
   created_at: string;
