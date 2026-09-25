@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { isSupabaseConfigured } from "@/lib/config";
+import { isSupabaseConfigured, site } from "@/lib/config";
 import type { MembershipType } from "@/lib/supabase/types";
 
 const configured = isSupabaseConfigured();
@@ -16,15 +16,21 @@ export function ApplyForm() {
 
     const form = e.currentTarget;
     const data = new FormData(form);
+    // The database only stores annual vs. lifetime, so the specific tier the
+    // applicant picked (Regular, Resident, ...) travels in the message text.
+    const tier = site.membershipTiers.find((t) => t.id === data.get("membership_type_interest"));
+    const note = String(data.get("message") ?? "").trim();
+    const message = tier
+      ? `Membership type: ${tier.label} (${tier.price})${note ? `\n\n${note}` : ""}`
+      : note || null;
     const payload = {
       full_name: String(data.get("full_name") ?? "").trim(),
       email: String(data.get("email") ?? "").trim(),
       phone: String(data.get("phone") ?? "").trim() || null,
       specialty: String(data.get("specialty") ?? "").trim() || null,
       practice_location: String(data.get("practice_location") ?? "").trim() || null,
-      membership_type_interest:
-        (data.get("membership_type_interest") as MembershipType | "" | null) || null,
-      message: String(data.get("message") ?? "").trim() || null,
+      membership_type_interest: (tier?.dbType ?? null) as MembershipType | null,
+      message,
       status: "pending" as const,
     };
 
@@ -87,7 +93,7 @@ export function ApplyForm() {
         <Field label="Practice location" name="practice_location" placeholder="City / clinic name" />
         <div>
           <label className="block text-sm font-medium text-neutral-700" htmlFor="membership_type_interest">
-            Interested in
+            Membership type
           </label>
           <select
             id="membership_type_interest"
@@ -98,8 +104,11 @@ export function ApplyForm() {
             <option value="" disabled>
               Select one
             </option>
-            <option value="annual">Annual Membership</option>
-            <option value="lifetime">Lifetime Membership</option>
+            {site.membershipTiers.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.label} — {t.price}
+              </option>
+            ))}
           </select>
         </div>
       </div>

@@ -3,7 +3,9 @@ import Link from "next/link";
 import { site } from "@/lib/config";
 
 const navLinks = [
-  { href: "/", label: "About & Join" },
+  { href: "/", label: "About" },
+  { href: "/membership", label: "Membership" },
+  { href: "/scholarship", label: "Scholarship" },
   { href: "/calendar", label: "Calendar" },
   { href: "/gallery", label: "Photo Gallery" },
 ];

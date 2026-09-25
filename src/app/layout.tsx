@@ -6,7 +6,7 @@ import { site } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: `${site.shortName} — ${site.name}`,
-  description: site.tagline,
+  description: site.shortBio,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

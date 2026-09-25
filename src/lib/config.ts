@@ -3,22 +3,81 @@
 // src/app/ for longer copy) — nothing is hardcoded beyond editing text.
 // Update the copy below with CADAH's real details before launch.
 
+export type MembershipTier = {
+  id: "lifetime" | "regular" | "resident" | "student" | "associate";
+  label: string;
+  price: string;
+  blurb: string;
+  /** How this tier maps onto the database's two-value membership_type column. */
+  dbType: "annual" | "lifetime" | null;
+};
+
 export const site = {
   name: "Chinese American Doctors Association of Houston",
   shortName: "CADAH",
-  tagline: "A community of Chinese-speaking physicians and dentists serving Greater Houston.",
-  boardEmail: "board@cadah.example.org", // TODO: replace with the real board contact address
-  membership: {
-    annual: {
-      label: "Annual Membership",
-      price: "$__ / year", // TODO: fill in the real annual dues amount
-      blurb: "Renews each year. Includes voting rights, the member directory, and event invitations.",
+  founded: 1993,
+  tagline: "Connecting Houston’s Chinese American physicians and dentists since 1993.",
+  // Short version — used in the footer and as the default page description.
+  shortBio:
+    "CADAH: uniting Chinese American doctors in Houston through education, fellowship, and service since 1993.",
+  boardEmail: "cadahrsvp@gmail.com",
+  mailingAddress: ["CADAH", "PO Box 420725", "Houston, TX 77242"],
+
+  // Flip to true once Stripe (build step 7) is live. Until then the "How to join"
+  // steps tell people to pay by check.
+  onlinePaymentsEnabled: false,
+
+  // Files in /public/downloads. Keep the file names stable so replacing a form
+  // is just a drop-in file swap.
+  downloads: {
+    membershipForm: "/downloads/CADAH-Membership-Application.docx",
+    scholarshipForm: "/downloads/CADAH-Scholarship-Application.pdf",
+  },
+
+  // Annual dues run January through December (per the paper application form).
+  membershipTiers: [
+    {
+      id: "lifetime",
+      label: "Lifetime",
+      price: "$1,000 one-time",
+      blurb:
+        "One payment, no renewals. Annual dues paid in the same calendar year can be applied toward lifetime membership.",
+      dbType: "lifetime",
     },
-    lifetime: {
-      label: "Lifetime Membership",
-      price: "$__ one-time", // TODO: fill in the real lifetime dues amount
-      blurb: "A one-time payment — no renewals, ever.",
+    {
+      id: "regular",
+      label: "Regular",
+      price: "$100 / year",
+      blurb: "Annual membership for licensed physicians and dentists in practice.",
+      dbType: "annual",
     },
+    {
+      id: "resident",
+      label: "Resident",
+      price: "$50 / year",
+      blurb: "Annual membership for residents, fellows, and interns.",
+      dbType: "annual",
+    },
+    {
+      id: "student",
+      label: "Student",
+      price: "$25 / year",
+      blurb: "Annual membership for medical and dental students.",
+      dbType: "annual",
+    },
+    {
+      id: "associate",
+      label: "Associate",
+      price: "Contact the board",
+      blurb: "Ask the board about Associate membership and dues.", // TODO: real description + dues
+      dbType: null,
+    },
+  ] satisfies MembershipTier[],
+
+  scholarship: {
+    // Update these each cycle (and swap the PDF in public/downloads).
+    deadline: "January 16, 2027",
+    announcement: "February 2027",
   },
 };
 
